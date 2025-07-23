@@ -17,9 +17,9 @@ st.markdown("""
 
 # 표 형태로 개념 정의와 특성
 st.markdown("""
-<table style="width:100%; border:1px solid #ccc; border-collapse: collapse; text-align: centert;">
+<table style="width:80%; border-collapse: collapse; justify-content: center; border:1px solid #ccc; border-collapse: collapse; text-align: centert;">
 <tr style="background-color: #f0f0f0;">
-  <th style="border:1px solid #ccc; padding: 8px; width: 50%;">📘 개념 정의</th>
+  <th style="border:1px solid #ccc; padding: 8px;">📘 개념 정의</th>
   <th style="border:1px solid #ccc; padding: 8px;">📘 개념 특성</th>
 </tr>
 <tr>
@@ -57,7 +57,7 @@ st.write("각 문장별로 ‘예시’ 또는 ‘비예시’를 체크하세�
 
 overlap_msgs = []
 for s in sentences:
-    col1, col2, col3 = st.columns([8, 1, 1])  # 폭 조절
+    col1, col2, col3 = st.columns([4, 1, 1])  # 폭 조절
     with col1:
         st.write(s)
     with col2:

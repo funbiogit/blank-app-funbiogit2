@@ -3,20 +3,21 @@ import streamlit as st
 st.set_page_config(page_title="프레이어 모델 - 변화", layout="wide")
 st.title("🔍 개념과 연관짓기")
 st.markdown("""
-<table style="width:50%; border-collapse: collapse; text-align: center;">
-  <tr style="border-bottom: 1px solid #ccc;">
-    <th style="padding: 10px; font-size: 24px;">개념 렌즈</th>
-  </tr>
-  <tr>
-    <td style="padding: 20px; font-size: 32px; font-weight: bold;">변화</td>
-  </tr>
-</table>
+<div style="display: flex; justify-content: center; margin-bottom: 20px;">
+  <table style="width: 300px; border-collapse: collapse; text-align: center; border: 1px solid #ccc;">
+    <tr style="border-bottom: 1px solid #ccc;">
+      <th style="padding: 10px; font-size: 24px;">개념 렌즈</th>
+    </tr>
+    <tr>
+      <td style="padding: 20px; font-size: 32px; font-weight: bold;">변화</td>
+    </tr>
+  </table>
+</div>
 """, unsafe_allow_html=True)
-
 
 # 표 형태로 개념 정의와 특성
 st.markdown("""
-<table style="width:100%; border:1px solid #ccc; border-collapse: collapse; text-align: left;">
+<table style="width:100%; border:1px solid #ccc; border-collapse: collapse; text-align: centert;">
 <tr style="background-color: #f0f0f0;">
   <th style="border:1px solid #ccc; padding: 8px; width: 50%;">📘 개념 정의</th>
   <th style="border:1px solid #ccc; padding: 8px;">📘 개념 특성</th>

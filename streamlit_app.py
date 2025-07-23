@@ -23,7 +23,7 @@ st.markdown("""
 </table>
 """, unsafe_allow_html=True)
 
-# 예시 문장 목록
+# 예시 문장
 sentences = [
     "세포에는 여러 가지 세포 소기관이 있다.",
     "모든 생물은 생명의 중심원리를 따른다.",
@@ -42,28 +42,26 @@ if "non_example_flags" not in st.session_state:
     st.session_state.non_example_flags = {s: False for s in sentences}
 
 st.markdown("### 🧩 예시 / 비예시 문장 선택")
+st.write("각 문장별로 ‘예시’ 또는 ‘비예시’를 체크하세요. 두 항목을 동시에 선택할 수 없습니다.")
 
-# 표 형태로 예시/비예시 선택 제공
-table_html = """
-<table style='width:100%; border-collapse:collapse;'>
-<tr style='background-color:#f0f0f0; text-align:left;'>
-    <th style='padding:8px;'>문장</th>
-    <th style='padding:8px;'>예시</th>
-    <th style='padding:8px;'>비예시</th>
-</tr>
-"""
-
+overlap_msgs = []
 for s in sentences:
     col1, col2, col3 = st.columns([8, 1, 1])
     with col1:
         st.write(s)
     with col2:
-        st.session_state.example_flags[s] = st.checkbox("", key=f"ex_{s}")
+        example_chk = st.checkbox("예시", key=f"ex_{s}")
     with col3:
-        st.session_state.non_example_flags[s] = st.checkbox("", key=f"non_ex_{s}")
-    # 동시 선택 방지
-    if st.session_state.example_flags[s] and st.session_state.non_example_flags[s]:
-        st.warning(f"❗ '{s}' 문장은 예시와 비예시를 동시에 선택할 수 없습니다.")
+        non_example_chk = st.checkbox("비예시", key=f"non_ex_{s}")
+
+    if example_chk and non_example_chk:
+        overlap_msgs.append(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다.")
+    st.session_state.example_flags[s] = example_chk
+    st.session_state.non_example_flags[s] = non_example_chk
+
+if overlap_msgs:
+    for msg in overlap_msgs:
+        st.warning(msg)
 
 # 키워드 기반 판단
 def is_change(sentence):
@@ -74,38 +72,17 @@ def is_change(sentence):
 st.divider()
 st.subheader("💡 생각 꺼내기")
 
-col5, col6 = st.columns(2)
-with col5:
+col1, col2 = st.columns(2)
+with col1:
     student_example = st.text_area(
         "💬 학습한 내용 중에서 '변화'에 해당하는 예시를 작성해 보세요.",
         key="student_ex"
     )
-with col6:
+with col2:
     student_non_example = st.text_area(
         "💬 학습한 내용 중에서 '변화'에 해당하지 않는 비예시를 작성해 보세요.",
         key="student_non_ex"
     )
-
-col7, col8 = st.columns(2)
-with col7:
-    st.markdown("#### ✅ 예시 결과")
-    for s, flag in st.session_state.example_flags.items():
-        if flag:
-            result = "🟢 변화와 관련 있음" if is_change(s) else "🔴 변화와 관련 없음"
-            st.write(f"- {s} → {result}")
-    if student_example:
-        result = "🟢 변화와 관련 있음" if is_change(student_example) else "🔴 변화와 관련 없음"
-        st.write(f"- ✍️ 작성 예시: {student_example} → {result}")
-
-with col8:
-    st.markdown("#### 🚫 비예시 결과")
-    for s, flag in st.session_state.non_example_flags.items():
-        if flag:
-            result = "🟢 변화와 관련 있음" if is_change(s) else "🔴 변화와 관련 없음"
-            st.write(f"- {s} → {result}")
-    if student_non_example:
-        result = "🟢 변화와 관련 있음" if is_change(student_non_example) else "🔴 변화와 관련 없음"
-        st.write(f"- ✍️ 작성 비예시: {student_non_example} → {result}")
 
 # 질문 만들기
 st.divider()
@@ -119,20 +96,13 @@ st.markdown(
 )
 student_question = st.text_area("✏️ 질문을 작성해 보세요.", key="student_question")
 
-# 결과 저장
+# 저장
 st.divider()
 st.subheader("📄 결과를 파일로 저장")
-
-unit = st.selectbox(
-    "단원을 선택하세요",
-    options=["과학의 기본량", "측정 표준", "자연의 구성 원소", "지구 시스템", "역학 시스템"],
-    key="unit"
-)
 
 if st.button("📥 저장 파일 생성하기"):
     output = []
     output.append("프레이어 모델 결과 - 개념: 변화")
-    output.append(f"\n[단원] {unit}")
     output.append("\n[개념 정의]")
     output.append("하나의 형태, 상태가 다른 형태, 상태로 전환, 변형 또는 이동하는 것.")
     output.append("\n[개념 특성]")

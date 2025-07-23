@@ -2,7 +2,7 @@ import streamlit as st
 import re
 
 st.set_page_config(page_title="프레이어 모델 - 변화", layout="wide")
-st.title("🔍 개념과 연관짓기")
+st.title("개념과 연관짓기")
 
 # ===============================
 # 개념 렌즈 표
@@ -10,7 +10,7 @@ st.markdown("""
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
   <table style="width: 300px; border-collapse: collapse; text-align: center; border: 2px solid black;">
     <tr style="background-color: #f0f0f0; border-bottom: 2px solid black;">
-      <th style="padding: 10px; font-size: 24px;">개념 렌즈</th>
+      <th style="padding: 10px; font-size: 28px;">🔍 개념 렌즈</th>
     </tr>
     <tr>
       <td style="padding: 20px; font-size: 32px; font-weight: bold;">변화</td>
@@ -29,14 +29,14 @@ st.markdown("""
       <col style="width: 50%;">
     </colgroup>
     <tr style="background-color: #f0f0f0; border-bottom: 2px solid black;">
-      <th style="border: 2px solid black; padding: 13px;">📘 개념 정의</th>
-      <th style="border: 2px solid black; padding: 13px;">📘 개념 특성</th>
+      <th style="border: 2px solid black; padding: 13px; font-size: 28px;">📘 개념 정의</th>
+      <th style="border: 2px solid black; padding: 13px; font-size: 28px;">📘 개념 특성</th>
     </tr>
     <tr>
-      <td style="border: 2px solid black; padding: 10px;">
+      <td style="border: 2px solid black; padding: 10px; font-size: 20px;">
         하나의 형태, 상태가 다른 형태, 상태로 전환, 변형 또는 이동하는 것.
       </td>
-      <td style="border: 2px solid black; padding: 10px;">
+      <td style="border: 2px solid black; padding: 10px; font-size: 20px;">
         원인, 과정, 결과를 포함한다.<br>시간의 흐름에 따른 과정이다.
       </td>
     </tr>
@@ -129,7 +129,7 @@ with col_ex_fb:
             else:
                 st.warning("✏️ 변화와 관련이 적은 문장 같아요. 원인→과정→결과 흐름을 떠올려보세요.")
     else:
-        st.info("📝 예시 문장을 아직 입력하지 않았어요.")
+        st.info("📝 예시 문장을 입력해주세요.")
 
 with col_nonex_fb:
     st.markdown("#### ✨ 비예시 피드백")
@@ -142,7 +142,7 @@ with col_nonex_fb:
             else:
                 st.success("✅ 좋아요! 변화와 무관한 내용을 잘 작성했어요.")
     else:
-        st.info("📝 비예시 문장을 아직 입력하지 않았어요.")
+        st.info("📝 비예시 문장을 입력해주세요.")
 
 # ===============================
 # 질문
@@ -151,7 +151,7 @@ st.subheader("❓ 질문 만들기")
 st.markdown("아래 두 개념을 활용한 탐구 질문을 작성해 보세요.")
 st.markdown("- 변화\n- 생태계")
 
-student_question = st.text_area("✏️ 질문을 작성해 보세요. (여러 개는 줄바꿈으로)", key="student_question")
+student_question = st.text_area("✏️ 질문을 작성해 보세요. (여러개 작성하는 경우 shift키로 줄바꿈)", key="student_question")
 
 if student_question:
     st.markdown("🧠 **탐구 가능성 피드백**")
@@ -159,7 +159,7 @@ if student_question:
     for i, q in enumerate(questions, 1):
         st.markdown(f"**질문 {i}:** {q}")
         if any(q.startswith(k) for k in ["왜", "어떻게", "무엇", "어떤", "무슨"]):
-            st.success("👍 탐구 중심 질문이에요!")
+            st.success("👍 조사를 통해 탐구해봅시다")
         else:
             st.info("👉 ‘왜’, ‘어떻게’ 등으로 시작하면 더 탐구적인 질문이 됩니다.")
 

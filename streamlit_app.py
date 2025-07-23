@@ -59,6 +59,7 @@ st.markdown("### 🧩 예시 / 비예시 문장 선택")
 st.write("각 문장별로 ‘예시’ 또는 ‘비예시’를 체크하세요. 두 항목을 동시에 선택할 수 없습니다.")
 
 overlap_msgs = []
+
 for s in sentences:
     col1, col2, col3 = st.columns([4, 1, 1])  # 폭 조절
     with col1:
@@ -70,9 +71,9 @@ for s in sentences:
         st.write("비예시")
         non_example_chk = st.checkbox("", key=f"non_ex_{s}")
 
-    # 중복 체크 안내
+    # 중복 체크 즉시 경고 메시지 출력
     if example_chk and non_example_chk:
-        overlap_msgs.append(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다.")
+        st.warning(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다. 하나만 선택해주세요.")
     st.session_state.example_flags[s] = example_chk
     st.session_state.non_example_flags[s] = non_example_chk
 

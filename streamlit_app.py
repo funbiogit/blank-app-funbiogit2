@@ -46,14 +46,17 @@ st.write("각 문장별로 ‘예시’ 또는 ‘비예시’를 체크하세�
 
 overlap_msgs = []
 for s in sentences:
-    col1, col2, col3 = st.columns([8, 1, 1])
+    col1, col2, col3 = st.columns([8, 1, 1])  # 폭 조절
     with col1:
         st.write(s)
     with col2:
-        example_chk = st.checkbox("예시", key=f"ex_{s}")
+        st.write("예시")
+        example_chk = st.checkbox("", key=f"ex_{s}")
     with col3:
-        non_example_chk = st.checkbox("비예시", key=f"non_ex_{s}")
+        st.write("비예시")
+        non_example_chk = st.checkbox("", key=f"non_ex_{s}")
 
+    # 중복 체크 안내
     if example_chk and non_example_chk:
         overlap_msgs.append(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다.")
     st.session_state.example_flags[s] = example_chk
@@ -72,13 +75,13 @@ def is_change(sentence):
 st.divider()
 st.subheader("💡 생각 꺼내기")
 
-col1, col2 = st.columns(2)
-with col1:
+col5, col6 = st.columns(2)
+with col5:
     student_example = st.text_area(
         "💬 학습한 내용 중에서 '변화'에 해당하는 예시를 작성해 보세요.",
         key="student_ex"
     )
-with col2:
+with col6:
     student_non_example = st.text_area(
         "💬 학습한 내용 중에서 '변화'에 해당하지 않는 비예시를 작성해 보세요.",
         key="student_non_ex"
@@ -96,7 +99,15 @@ st.markdown(
 )
 student_question = st.text_area("✏️ 질문을 작성해 보세요.", key="student_question")
 
-# 저장
+# 질문 탐구 가능성 피드백
+if student_question:
+    st.markdown("🧠 **질문에 대한 탐구 가능성 피드백**")
+    if any(kw in student_question for kw in ["왜", "어떻게", "무엇"]):
+        st.success("👍 탐구 중심의 질문입니다. 실험이나 관찰로 접근할 수 있겠어요!")
+    else:
+        st.info("질문이 탐구 중심으로 적절한지 다시 생각해 보세요. '왜', '어떻게'로 시작해보는 건 어떨까요?")
+
+# 결과 저장
 st.divider()
 st.subheader("📄 결과를 파일로 저장")
 
@@ -109,7 +120,7 @@ if st.button("📥 저장 파일 생성하기"):
     output.append("원인, 과정, 결과를 포함한다.")
     output.append("시간의 흐름에 따른 과정이다.")
 
-    output.append("\n[예시]")
+    output.append("\n[예시로 선택한 문장]")
     for s, flag in st.session_state.example_flags.items():
         if flag:
             mark = "✅ 관련 있음" if is_change(s) else "❌ 관련 없음"
@@ -118,7 +129,7 @@ if st.button("📥 저장 파일 생성하기"):
         mark = "✅ 관련 있음" if is_change(student_example) else "❌ 관련 없음"
         output.append(f"- ✍️ 작성 예시: {student_example} ({mark})")
 
-    output.append("\n[비예시]")
+    output.append("\n[비예시로 선택한 문장]")
     for s, flag in st.session_state.non_example_flags.items():
         if flag:
             mark = "✅ 관련 있음" if is_change(s) else "❌ 관련 없음"

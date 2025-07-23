@@ -17,21 +17,23 @@ st.markdown("""
 
 # 표 형태로 개념 정의와 특성
 st.markdown("""
-<table style="width:80%; border-collapse: collapse; justify-content: center; border:1px solid #ccc; border-collapse: collapse; text-align: centert;">
-<tr style="background-color: #f0f0f0;">
-  <th style="border:1px solid #ccc; padding: 8px;">📘 개념 정의</th>
-  <th style="border:1px solid #ccc; padding: 8px;">📘 개념 특성</th>
-</tr>
-<tr>
-  <td style="border:1px solid #ccc; padding: 8px;">
-    하나의 형태, 상태가 다른 형태, 상태로 전환, 변형 또는 이동하는 것.
-  </td>
-  <td style="border:1px solid #ccc; padding: 8px;">
-    원인, 과정, 결과를 포함한다.  
-    시간의 흐름에 따른 과정이다.
-  </td>
-</tr>
-</table>
+<div style="display: flex; justify-content: center; margin-bottom: 20px;">
+  <table style="width:80%; border-collapse: collapse; border:1px solid #ccc; text-align: center;">
+    <tr style="background-color: #f0f0f0;">
+      <th style="border:1px solid #ccc; padding: 8px;">📘 개념 정의</th>
+      <th style="border:1px solid #ccc; padding: 8px;">📘 개념 특성</th>
+    </tr>
+    <tr>
+      <td style="border:1px solid #ccc; padding: 8px;">
+        하나의 형태, 상태가 다른 형태, 상태로 전환, 변형 또는 이동하는 것.
+      </td>
+      <td style="border:1px solid #ccc; padding: 8px;">
+        원인, 과정, 결과를 포함한다.  
+        시간의 흐름에 따른 과정이다.
+      </td>
+    </tr>
+  </table>
+</div>
 """, unsafe_allow_html=True)
 
 # 예시 문장

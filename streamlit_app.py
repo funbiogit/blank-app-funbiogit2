@@ -4,8 +4,8 @@ st.set_page_config(page_title="프레이어 모델 - 변화", layout="wide")
 st.title("🔍 개념과 연관짓기")
 st.markdown("""
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-  <table style="width: 300px; border-collapse: collapse; text-align: center; border: 1px solid #ccc;">
-    <tr style="border-bottom: 1px solid #ccc;">
+  <table style="width: 300px; border-collapse: collapse; text-align: center; border: 2px solid #000;">
+    <tr style="border-bottom: 2px solid #000; background-color: #f0f0f0;">
       <th style="padding: 10px; font-size: 24px;">개념 렌즈</th>
     </tr>
     <tr>
@@ -14,6 +14,7 @@ st.markdown("""
   </table>
 </div>
 """, unsafe_allow_html=True)
+
 
 # 표 형태로 개념 정의와 특성
 st.markdown("""

@@ -2,10 +2,12 @@ import streamlit as st
 
 st.set_page_config(page_title="프레이어 모델 - 변화", layout="wide")
 st.title("🔍 개념과 연관짓기")
+
+# 개념 렌즈 표 (가운데 배치, 배경색 없음, 테두리 굵고 검은색)
 st.markdown("""
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-  <table style="width: 300px; border-collapse: collapse; text-align: center; border: 2px solid #000;">
-    <tr style="border-bottom: 2px solid #000; background-color: #f0f0f0;">
+  <table style="width: 300px; border-collapse: collapse; text-align: center; border: 2px solid black;">
+    <tr style="background-color: #f0f0f0; border-bottom: 2px solid black;">
       <th style="padding: 10px; font-size: 24px;">개념 렌즈</th>
     </tr>
     <tr>
@@ -15,20 +17,19 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-
-# 표 형태로 개념 정의와 특성
+# 개념 정의와 특성 표 (가운데 배치, 배경색 #f0f0f0 유지, 테두리 굵고 검은색)
 st.markdown("""
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-  <table style="width:80%; border-collapse: collapse; border:1px solid #ccc; text-align: center;">
-    <tr style="background-color: #f0f0f0;">
-      <th style="border:1px solid #ccc; padding: 8px;">📘 개념 정의</th>
-      <th style="border:1px solid #ccc; padding: 8px;">📘 개념 특성</th>
+  <table style="width:80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
+    <tr style="background-color: #f0f0f0; border-bottom: 2px solid black;">
+      <th style="border: 2px solid black; padding: 8px;">📘 개념 정의</th>
+      <th style="border: 2px solid black; padding: 8px;">📘 개념 특성</th>
     </tr>
     <tr>
-      <td style="border:1px solid #ccc; padding: 8px;">
+      <td style="border: 2px solid black; padding: 8px;">
         하나의 형태, 상태가 다른 형태, 상태로 전환, 변형 또는 이동하는 것.
       </td>
-      <td style="border:1px solid #ccc; padding: 8px;">
+      <td style="border: 2px solid black; padding: 8px;">
         원인, 과정, 결과를 포함한다.  
         시간의 흐름에 따른 과정이다.
       </td>
@@ -37,7 +38,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 예시 문장
+# 예시 문장 리스트
 sentences = [
     "세포에는 여러 가지 세포 소기관이 있다.",
     "모든 생물은 생명의 중심원리를 따른다.",
@@ -58,10 +59,14 @@ if "non_example_flags" not in st.session_state:
 st.markdown("### 🧩 예시 / 비예시 문장 선택")
 st.write("각 문장별로 ‘예시’ 또는 ‘비예시’를 체크하세요. 두 항목을 동시에 선택할 수 없습니다.")
 
-overlap_msgs = []
+# 키워드 기반 변화 관련 여부 판단 함수
+def is_change(sentence):
+    keywords = ["발생", "빠져나온다", "바뀌", "전환", "변형", "이동"]
+    return any(k in sentence for k in keywords)
 
+# 예시 / 비예시 선택 및 피드백 출력
 for s in sentences:
-    col1, col2, col3 = st.columns([4, 1, 1])  # 폭 조절
+    col1, col2, col3 = st.columns([4, 1, 1])
     with col1:
         st.write(s)
     with col2:
@@ -71,20 +76,22 @@ for s in sentences:
         st.write("비예시")
         non_example_chk = st.checkbox("", key=f"non_ex_{s}")
 
-    # 중복 체크 즉시 경고 메시지 출력
+    # 중복 선택 경고
     if example_chk and non_example_chk:
-        st.warning(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다. 하나만 선택해주세요.")
+        st.warning(f"❗ '{s}' 문장은 예시와 비예시에 동시에 선택할 수 없습니다.")
+
     st.session_state.example_flags[s] = example_chk
     st.session_state.non_example_flags[s] = non_example_chk
 
-if overlap_msgs:
-    for msg in overlap_msgs:
-        st.warning(msg)
+    related = is_change(s)
 
-# 키워드 기반 판단
-def is_change(sentence):
-    keywords = ["발생", "빠져나온다", "바뀌", "전환", "변형", "이동"]
-    return any(k in sentence for k in keywords)
+    # 변화 관련 문장인데 비예시 선택한 경우
+    if related and non_example_chk:
+        st.info("💡 원인-결과 관계가 없는지 다시 확인해봅시다.")
+
+    # 변화 관련 없는데 예시 선택한 경우
+    if not related and example_chk:
+        st.info("💡 원인과 결과가 무엇인지 다시 생각해보세요.")
 
 # 생각 꺼내기
 st.divider()
